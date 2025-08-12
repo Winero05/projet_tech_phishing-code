@@ -94,7 +94,7 @@ async function scanURL() {
 }
 
 //Handle le processus de scanning des fichiers
-async function scanFile() {
+async function scanFILE() {
     const file = getElement('fileInput').files[0];
     if(!file) return showError("Please select a file!");
     if (file.size > 32*1024*1024) return showError("La taille ne doit pas depasser 32MB");
@@ -182,7 +182,7 @@ function showFormattedResult(data) {
     const categories = {
         malicious: { color: 'malicious', label: 'Malicious' },
         suspicious: { color: 'suspicious', label: 'Suspicious' },
-        harmless: { color: 'safe', label: 'Clean' },
+        safe: { color: 'safe', label: 'Safe' },
         undetected: { color: 'undetected', label: 'Undetected' }
     };
 
@@ -193,16 +193,18 @@ function showFormattedResult(data) {
     }, {});
 
     const verdict = stats.malicious > 0 ? "Malicious" : 
-                   stats.suspicious > 0 ? "Suspicious" : "Safe";
+                   stats.suspicious > 0 ? "Suspicious" : 
+                   stats.safe > 0 ? "Safe" : "Undetected";
                    
     const verdictClass = stats.malicious > 0 ? "malicious" : 
-                        stats.suspicious > 0 ? "suspicious" : "safe";
+                        stats.suspicious > 0 ? "suspicious" : 
+                        stats.safe > 0 ? "safe" : "undetected";
 
     updateResult(`
         <h3>Scan Report</h3>
         <div class="scan-stats">
             <p><strong>Verdict:</strong> <span class="${verdictClass}">${verdict}</span></p>
-            <div class="progres-section">
+            <div class="progress-section">
                 <div class="progress-label">
                     <span>Detection Result</span>
                     <span class="progress-percent">${percents.malicious}% Detection Rate</span>
@@ -237,7 +239,16 @@ function showFormattedResult(data) {
 
     setTimeout(() => {
         const progressStacked = getElement('result').querySelector('.progress-stacked');
-        if (progressStacked) progressStacked.classList.add('animate');
+        if (progressStacked) {
+            progressStacked.classList.add('animate');
+            // Animer les barres de progression
+            const progressBars = progressStacked.querySelectorAll('.progress-bar');
+            progressBars.forEach((bar, index) => {
+                setTimeout(() => {
+                    bar.style.width = bar.style.width;
+                }, index * 200);
+            });
+        }
     }, 1000);
 }
 
