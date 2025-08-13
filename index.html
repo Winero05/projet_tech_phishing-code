@@ -1,44 +1,254 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title> Tech Projet Protection_phishing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>PhishGuard Pro - Protection Anti-Phishing</title>
 </head>
 
 <body>
+    <!-- Header avec navigation -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <i class="fas fa-shield-alt"></i>
+                <span> KADEDI</span>
+            </div>
+            <div class="nav-actions">
+                <div class="language-selector">
+                    <select id="languageSelect" onchange="changeLanguage(this.value)">
+                        <option value="fr">Français</option>
+                        <option value="en">English</option>
+                        <option value="ewe">Ewe</option>
+                        <option value="kab">Kabye</option>
+                    </select>
+                </div>
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
 
-        <div class="container">
-            <h1> AntiPhish</h1>
-
-            <section>
-                <h2>Scan a URL</h2>
-                <input type="text" id="urlInput"
-                placeholder="Enter URL (e.g., https://example.com)">
-                <button onclick="scanURL()">Scan a URL</button>
-            </section>
-
-            <section>
-                <h2>Scan a File</h2>
-                <input type="file" id="fileInput">
-                <button onclick="scanFILE()">Scan File</button>
-            </section>
-
-            <div id="result"></div>
-
-            <div id="fullReportModal" class="modal">
-                <div class="modal-content">
-                    <span class="close" onclick="closeModal()">&times;</span>
-                    <h2>Full Report </h2>
-                    <div id="fullReportContent"></div>
+    <!-- Contenu principal -->
+    <main class="main-content">
+        <!-- Section héro -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title" data-translate="hero_title">Protection Anti-Phishing Intelligente</h1>
+                <p class="hero-subtitle" data-translate="hero_subtitle">Détectez et prévenez les attaques de phishing avec notre technologie avancée</p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">99.9%</span>
+                        <span class="stat-label" data-translate="accuracy_rate">Taux de précision</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label" data-translate="scans_done">Analyses effectuées</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label" data-translate="monitoring">Surveillance</span>
+                    </div>
                 </div>
             </div>
-        </div>
-    
+        </section>
 
+        <!-- Section de scan -->
+        <section class="scan-section">
+            <div class="container">
+                <div class="scan-tabs">
+                    <button class="tab-btn active" onclick="switchTab('url')" data-translate="url_scan">Scan URL</button>
+                    <button class="tab-btn" onclick="switchTab('file')" data-translate="file_scan">Scan Fichier</button>
+                </div>
+
+                <!-- Tab URL -->
+                <div id="urlTab" class="tab-content active">
+                    <div class="scan-card">
+                        <div class="scan-header">
+                            <i class="fas fa-link"></i>
+                            <h2 data-translate="url_scan_title">Vérifier un lien suspect</h2>
+                        </div>
+                        <div class="scan-form">
+                            <div class="input-group">
+                                <input type="text" id="urlInput" placeholder="Entrez l'URL à vérifier..." data-translate-placeholder="url_placeholder">
+                                <button onclick="scanURL()" class="btn-scan">
+                                    <i class="fas fa-search"></i>
+                                    <span data-translate="analyze">Analyser</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Fichier -->
+                <div id="fileTab" class="tab-content">
+                    <div class="scan-card">
+                        <div class="scan-header">
+                            <i class="fas fa-file-upload"></i>
+                            <h2 data-translate="file_scan_title">Vérifier un fichier</h2>
+                        </div>
+                        <div class="scan-form">
+                            <div class="file-drop-zone" id="fileDropZone">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p data-translate="file_drop_text">Glissez-déposez votre fichier ici ou cliquez pour sélectionner</p>
+                                <input type="file" id="fileInput" class="file-input" accept=".exe,.dll,.pdf,.doc,.docx,.xls,.xlsx">
+                            </div>
+                            <button onclick="scanFILE()" class="btn-scan" id="fileScanBtn" disabled>
+                                <i class="fas fa-virus-slash"></i>
+                                <span data-translate="scan_file">Scanner le fichier</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Résultats -->
+                <div id="result" class="result-container"></div>
+            </div>
+        </section>
+
+        <!-- Section éducation -->
+        <section class="education-section">
+            <div class="container">
+                <h2 class="section-title" data-translate="education_title">
+                    <i class="fas fa-graduation-cap"></i>
+                    Sensibilisation à la Cybersécurité
+                </h2>
+                
+                <div class="education-grid">
+                    <div class="education-card">
+                        <div class="card-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <h3 data-translate="what_is_phishing">Qu'est-ce que le phishing ?</h3>
+                        <p data-translate="phishing_description">Le phishing est une technique frauduleuse utilisée par les cybercriminels pour récupérer vos informations personnelles en se faisant passer pour des entités de confiance.</p>
+                    </div>
+
+                    <div class="education-card">
+                        <div class="card-icon warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h3 data-translate="warning_signs">Signes d'alerte</h3>
+                        <ul class="warning-list">
+                            <li><i class="fas fa-times-circle"></i> <span data-translate="warning_1">Liens de dons gratuits sur les réseaux sociaux</span></li>
+                            <li><i class="fas fa-times-circle"></i> <span data-translate="warning_2">Erreurs d'orthographe ou de grammaire</span></li>
+                            <li><i class="fas fa-exclamation"></i> <span data-translate="warning_3">Sentiment d'urgence ou de menace</span></li>
+                            <li><i class="fas fa-link"></i> <span data-translate="warning_4">Liens suspects ou domaines inconnus</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="education-card">
+                        <div class="card-icon success">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 data-translate="best_practices">Bonnes pratiques</h3>
+                        <div class="tips-grid">
+                            <div class="tip-item">
+                                <i class="fas fa-eye"></i>
+                                <strong data-translate="tip_1_title">Vérifiez les liens</strong>
+                                <p data-translate="tip_1_desc">Survolez les liens sans cliquer pour voir la vraie destination</p>
+                            </div>
+                            <div class="tip-item">
+                                <i class="fas fa-key"></i>
+                                <strong data-translate="tip_2_title">Protégez vos identifiants</strong>
+                                <p data-translate="tip_2_desc">Ne donnez jamais vos mots de passe par email</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="education-card emergency">
+                        <div class="card-icon danger">
+                            <i class="fas fa-ambulance"></i>
+                        </div>
+                        <h3 data-translate="emergency_title">En cas d'attaque</h3>
+                        <ol class="emergency-list">
+                            <li data-translate="emergency_1">Changez immédiatement vos mots de passe</li>
+                            <li data-translate="emergency_2">Contactez votre banque si nécessaire</li>
+                            <li data-translate="emergency_3">Signalez au CERT <a href="https://cert.tg" target="_blank"></a>https://cert.tg/</li>
+                            <li data-translate="emergency_4">Analysez votre système</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Chatbot -->
+    <div class="chatbot-container" id="chatbotContainer">
+        <div class="chatbot-toggle" onclick="toggleChatbot()">
+            <i class="fas fa-comments"></i>
+            <span class="notification-badge" id="notificationBadge" style="display: none;">1</span>
+        </div>
+        
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">
+                <div class="chatbot-title">
+                    <i class="fas fa-robot"></i>
+                    <span data-translate="chatbot_title">Assistant Cybersécurité</span>
+                </div>
+                <button class="chatbot-close" onclick="toggleChatbot()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="message bot-message">
+                    <div class="message-content">
+                        <p data-translate="chatbot_welcome">Bonjour ! Je suis votre assistant cybersécurité. Comment puis-je vous aider aujourd'hui ?</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chatbot-input">
+                <input type="text" id="chatbotInput" placeholder="Posez votre question..." data-translate-placeholder="chatbot_placeholder">
+                <button onclick="sendMessage()" class="send-btn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pour rapport complet -->
+    <div id="fullReportModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-chart-bar"></i> <span data-translate="full_report">Rapport complet</span></h2>
+                <button class="close" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="fullReportContent"></div>
+        </div>
+    </div>
+
+    <!-- Footer 
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>PhishGuard Pro</h3>
+                    <p data-translate="footer_description">Protection avancée contre les attaques de phishing</p>
+                </div>
+                <div class="footer-section">
+                    <h4 data-translate="contact">Contact</h4>
+                    <p>contact@phishguard.tg</p>
+                </div>
+                <div class="footer-section">
+                    <h4 data-translate="resources">Ressources</h4>
+                    <ul>
+                        <li><a href="#" data-translate="privacy">Confidentialité</a></li>
+                        <li><a href="#" data-translate="terms">Conditions</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 PhishGuard Pro. <span data-translate="all_rights">Tous droits réservés</span></p>
+            </div>
+        </div>
+    </footer> -->
 
     <script src="script.js"></script>
+    <script src="translations.js"></script>
+    <script src="chatbot.js"></script>
 </body>
-
 </html>
